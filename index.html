@@ -739,35 +739,35 @@
         const lettersArr = ['أ','ب','ت','ث','ج','ح','خ','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ك','ل','م','ن','هـ','و','ي'];
         const numbersArr = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16'];
 
-        const database = {
-            'أ': { city: 'أبها', food: 'أرز حساوي', dialect: 'أبشري', heritage: 'أبواب نجدية', place: 'أبها الجديدة', name: 'أمل' },
-            'ب': { city: 'بريدة', food: 'بليلة', dialect: 'بسم الله علينا', heritage: 'بشت', place: 'بوليفارد الرياض', name: 'بيان' },
-            'ت': { city: 'تبوك', food: 'تمر', dialect: 'توكلي على الله', heritage: 'تحفة تراثية', place: 'تبوك التاريخية', name: 'تالا' },
-            'ث': { city: 'ثقيف', food: 'ثريد', dialect: 'ثواني', heritage: 'ثوب تراثي', place: 'ثقيف الطائف', name: 'ثناء' },
-            'ج': { city: 'جدة', food: 'جريش', dialect: 'جداوي', heritage: 'جلسة شعبية', place: 'جدة التاريخية', name: 'جود' },
-            'ح': { city: 'حائل', food: 'حنيني', dialect: 'حيّاك الله', heritage: 'حياكة السدو', place: 'حرة خيبر', name: 'حصة' },
-            'خ': { city: 'الخبر', food: 'خبز تميس', dialect: 'خلاص', heritage: 'خوص', place: 'الخبر', name: 'خلود' },
-            'د': { city: 'الدرعية', food: 'دغابيس', dialect: 'دقيقة', heritage: 'دلة قهوة', place: 'درعية التاريخية', name: 'دلال' },
-            'ذ': { city: 'ذهبان', food: 'ذرة', dialect: 'ذاك اليوم', heritage: 'ذوق الضيافة', place: 'ذهبان', name: 'ذكرى' },
-            'ر': { city: 'الرياض', food: 'رز بخاري', dialect: 'رايقة', heritage: 'رقصة العرضة', place: 'روشن فرونت', name: 'ريم' },
-            'ز': { city: 'الزلفي', food: 'زلابية', dialect: 'زين', heritage: 'زخارف نجدية', place: 'الزلفي', name: 'زينب' },
-            'س': { city: 'سكاكا', food: 'سليق', dialect: 'سمّي', heritage: 'سدو', place: 'سوق الزل', name: 'سارة' },
-            'ش': { city: 'شرورة', food: 'شاورما', dialect: 'شدعوة', heritage: 'شماغ', place: 'شرورة', name: 'شهد' },
-            'ص': { city: 'صبيا', food: 'صيادية', dialect: 'صادقة', heritage: 'صقر', place: 'صبيا', name: 'صبا' },
-            'ض': { city: 'ضباء', food: 'ضأن مندي', dialect: 'ضبط', heritage: 'ضيافة', place: 'ضباء', name: 'ضحى' },
-            'ط': { city: 'طريف', food: 'طعمية', dialect: 'طيب', heritage: 'طاسة نحاس', place: 'طريف', name: 'طيف' },
-            'ظ': { city: 'الظهران', food: 'لحم ظبي', dialect: 'ظريف', heritage: 'ظلال المجلس', place: 'الظهران', name: 'ظبية' },
-            'ع': { city: 'عرعر', food: 'عصيدة', dialect: 'عوافي', heritage: 'عرضة', place: 'عرعر', name: 'عائشة' },
-            'غ': { city: 'الغاط', food: 'غريبة', dialect: 'غالي', heritage: 'غترة', place: 'الغاط', name: 'غلا' },
-            'ف': { city: 'فيفا', food: 'فول', dialect: 'فديتك', heritage: 'فنجال قهوة', place: 'فيفا', name: 'فاطمة' },
-            'ق': { city: 'القريات', food: 'قرصان', dialect: 'قدّام', heritage: 'قهوة', place: 'قصر المصمك', name: 'قمر' },
-            'ك': { city: 'الخرج', food: 'كبسة', dialect: 'كفو', heritage: 'كليجا', place: 'كورنيش جدة', name: 'كوثر' },
-            'ل': { city: 'ليلى', food: 'لقيمات', dialect: 'لا هنتي', heritage: 'لبس شعبي', place: 'لينة التاريخية', name: 'لمى' },
-            'م': { city: 'مكة', food: 'مطبق', dialect: 'مره حلو', heritage: 'مجلس عربي', place: 'مكة المكرمة', name: 'منيرة' },
-            'ن': { city: 'نجران', food: 'نخي', dialect: 'نورتينا', heritage: 'نقوش تراثية', place: 'نجران', name: 'نورة' },
-            'هـ': { city: 'الهفوف', food: 'هريس', dialect: 'هلا والله', heritage: 'هجانة', place: 'الهفوف', name: 'هدى' },
-            'و': { city: 'وادي الدواسر', food: 'ورق عنب', dialect: 'وش أخبارك', heritage: 'وشاح تراثي', place: 'واجهة الرياض', name: 'وعد' },
-            'ي': { city: 'ينبع', food: 'يغمش', dialect: 'يا هلا', heritage: 'مناسبة وطنية', place: 'ينبع البحر', name: 'يارا' }
+        const questionBank = {
+            'أ': { question: 'ما اسم علم يدرس الكائنات الحية؟', answer: 'أحياء' },
+            'ب': { question: 'ما اسم وسيلة نقل كبيرة تُستخدم في السفر البحري؟', answer: 'باخرة' },
+            'ت': { question: 'ما اسم مجال يهتم بإدارة الأعمال والمال؟', answer: 'تجارة' },
+            'ث': { question: 'ما اسم شيء يُستخدم لحفظ الأطعمة وتبريدها؟', answer: 'ثلاجة' },
+            'ج': { question: 'ما اسم علم يدرس طبقات الأرض وتكوينها؟', answer: 'جيولوجيا' },
+            'ح': { question: 'ما اسم شعور نفسي يدل على الضيق أو الألم العاطفي؟', answer: 'حزن' },
+            'خ': { question: 'ما اسم نبات عطري يُستخدم في الطبخ؟', answer: 'خزامى' },
+            'د': { question: 'ما اسم مكان يُستخدم للدراسة والقراءة؟', answer: 'دار' },
+            'ذ': { question: 'ما اسم القدرة العقلية على تذكّر المعلومات؟', answer: 'ذاكرة' },
+            'ر': { question: 'ما اسم إبداء وجهة نظر حول موضوع؟', answer: 'رأي' },
+            'ز': { question: 'ما اسم نشاط يعتمد على زراعة الأرض؟', answer: 'زراعة' },
+            'س': { question: 'ما اسم الفضاء الذي يحيط بالأرض؟', answer: 'سماء' },
+            'ش': { question: 'ما اسم وسيلة اتصال رقمية تستخدم الإنترنت؟', answer: 'شبكة' },
+            'ص': { question: 'ما اسم صفة تدل على التحمل وعدم الاستعجال؟', answer: 'صبر' },
+            'ض': { question: 'ما اسم مصدر الضوء في النهار؟', answer: 'ضوء' },
+            'ط': { question: ' اسم وسيلة نقل؟', answer: 'طائرة' },
+            'ظ': { question: 'ما اسم شيء واضح وغير مخفي؟', answer: 'ظاهر' },
+            'ع': { question: 'ما اسم اللغة الرسمية في معظم الدول العربية؟', answer: 'عربية' },
+            'غ': { question: 'ما اسم حالة جوية فيها سحب وضباب؟', answer: 'غيم' },
+            'ف': { question: 'ما اسم جهاز يُستخدم لتخزين البيانات؟', answer: 'فلاش' },
+            'ق': { question: 'ما اسم مهارة إدارة وتوجيه الآخرين؟', answer: 'قيادة' },
+            'ك': { question: 'ما اسم مصدر للمعلومات والمعرفة المكتوبة؟', answer: 'كتاب' },
+            'ل': { question: 'ما اسم علم يهتم بدراسة اللغة وقواعدها؟', answer: 'لغويات' },
+            'م': { question: 'ما اسم مكان تُجرى فيه التجارب العلمية؟', answer: 'مختبر' },
+            'ن': { question: 'ما اسم نظام يُستخدم لتنظيم المجتمع؟', answer: 'نظام' },
+            'هـ': { question: 'ما اسم وسيلة اتصال ذكية محمولة؟', answer: 'هاتف' },
+            'و': { question: 'ما اسم حالة تعني الاستقرار والتوازن؟', answer: 'وزن' },
+            'ي': { question: 'ما اسم علم يدرس الأحداث الماضية؟', answer: 'تاريخ' }
         };
 
         const challenges = {
@@ -885,22 +885,14 @@
             document.getElementById('answer-hint').style.display = 'none';
 
             if (gameMode === 'questions') {
-                const questionTemplates = [
-                    { text: 'مدينة أو منطقة سعودية تبدأ بحرف (X)', key: 'city' },
-                    { text: 'أكلة تحتوي على حرف (X)', key: 'food' },
-                    { text: 'كلمة من اللهجة السعودية تبدأ بحرف (X)', key: 'dialect' },
-                    { text: 'شيء من التراث السعودي يبدأ بحرف (X)', key: 'heritage' },
-                    { text: 'مكان أو معلم في السعودية يبدأ بحرف (X)', key: 'place' },
-                    { text: 'اسم بنت يبدأ بحرف (X)', key: 'name' },
-                    { text: 'مناسبة وطنية تبدأ بحرف (X)', key: 'heritage' }
-                ];
+                const q = questionBank[item];
 
-                const t = questionTemplates[Math.floor(Math.random() * questionTemplates.length)];
-                document.getElementById('display-text').innerText = '🌸 ' + t.text.replace('X', item);
-                hintText = database[item]?.[t.key] || 'فكري في شيء يبدأ بهذا الحرف 🌸';
-
-                if (t.text.includes('مناسبة وطنية')) {
-                    hintText = 'مثل: اليوم الوطني، يوم التأسيس، يوم العلم';
+                if (q) {
+                    document.getElementById('display-text').innerText = '🌸 ' + item + ' — ' + q.question;
+                    hintText = 'الإجابة: ' + q.answer;
+                } else {
+                    document.getElementById('display-text').innerText = '🌸 اختاري حرفًا آخر';
+                    hintText = 'لا توجد إجابة لهذا الحرف';
                 }
 
             } else {
@@ -974,7 +966,7 @@
 
         function toggleAnswer() {
             const h = document.getElementById('answer-hint');
-            h.innerText = '🌸 تلميح إلهام: ' + hintText;
+            h.innerText = hintText;
             h.style.display = h.style.display === 'block' ? 'none' : 'block';
         }
 
