@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>حروف وتحديات مع إلهام</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Amiri:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --soft-pink: #fce4ec;
+            --rose: #ec407a;
+            --deep-purple: #7b1fa2;
+            --light-purple: #ce93d8;
+            --accent-gold: #ffd700;
+            --bg-gradient: radial-gradient(circle at top, #fff6fb 0%, #fce4ec 38%, #f3e5f5 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .bg-flower {
+            position: absolute;
+            opacity: 0.18;
+            animation: float 15s infinite ease-in-out;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+            50% { transform: translateY(-25px) rotate(20deg) scale(1.08); }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1180px;
+            min-height: 96vh;
+            background: rgba(255, 255, 255, 0.80);
+            border-radius: 28px;
+            padding: 12px;
+            box-shadow: 0 18px 45px rgba(123, 31, 162, 0.14);
+            border: 3px solid #ffffff;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 12% 10%, rgba(236,64,122,0.12), transparent 23%),
+                radial-gradient(circle at 90% 12%, rgba(171,71,188,0.13), transparent 24%),
+                radial-gradient(circle at 15% 85%, rgba(255,215,0,0.10), transparent 25%);
+            pointer-events: none;
+        }
+
+        .header {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header h1 {
+            font-family: 'Amiri', serif;
+            color: var(--deep-purple);
+            font-size: clamp(1.25rem, 4vw, 2rem);
+            text-align: center;
+            margin-bottom: 6px;
+            line-height: 1.2;
+        }
+
+        .view {
+            display: none;
+            width: 100%;
+            flex-grow: 1;
+            flex-direction: column;
+            animation: fadeIn 0.45s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .view.active { display: flex; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .setup-card {
+            text-align: center;
+            background: rgba(255,255,255,0.92);
+            padding: 24px;
+            border-radius: 28px;
+            width: 100%;
+            max-width: 560px;
+            margin: auto;
+            box-shadow: 0 14px 35px rgba(123,31,162,0.12);
+            border: 2px solid #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .setup-card::before {
+            content: "🌸";
+            position: absolute;
+            top: -18px;
+            right: -10px;
+            font-size: 5rem;
+            opacity: 0.13;
+            transform: rotate(15deg);
+        }
+
+        .setup-card::after {
+            content: "🌸";
+            position: absolute;
+            bottom: 8px;
+            left: 18px;
+            font-size: 2.4rem;
+            opacity: 0.24;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #fff0f6;
+            color: #ad1457;
+            border: 1px solid #f8bbd0;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-weight: 900;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 10px rgba(236,64,122,0.08);
+        }
+
+        .hero-title {
+            font-family: 'Amiri', serif;
+            color: var(--deep-purple);
+            font-size: clamp(2rem, 7vw, 3.2rem);
+            line-height: 1.15;
+            margin-bottom: 8px;
+        }
+
+        .hero-subtitle {
+            color: #6d3b78;
+            font-weight: 800;
+            font-size: clamp(0.98rem, 3vw, 1.18rem);
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .mode-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .mode-card {
+            border: none;
+            border-radius: 22px;
+            padding: 16px;
+            cursor: pointer;
+            text-align: right;
+            transition: 0.28s;
+            color: white;
+            box-shadow: 0 10px 24px rgba(123,31,162,0.16);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mode-card:hover {
+            transform: translateY(-3px) scale(1.01);
+        }
+
+        .mode-card::after {
+            content: "🌸";
+            position: absolute;
+            left: 15px;
+            bottom: -8px;
+            font-size: 3.8rem;
+            opacity: 0.25;
+        }
+
+        .mode-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .mode-card p {
+            font-size: 0.92rem;
+            opacity: 0.95;
+            font-weight: 700;
+            position: relative;
+            z-index: 2;
+        }
+
+        .mode-letters {
+            background: linear-gradient(135deg, #7b1fa2, #ab47bc, #ec407a);
+        }
+
+        .mode-numbers {
+            background: linear-gradient(135deg, #ec407a, #ba68c8, #7b1fa2);
+        }
+
+        .decor-row {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 18px 0 4px;
+            font-size: 1.5rem;
+            animation: softPop 2.5s infinite ease-in-out;
+        }
+
+        @keyframes softPop {
+            0%,100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 14px;
+            border: 2px solid #fce4ec;
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 12px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--rose);
+            box-shadow: 0 0 10px rgba(236, 64, 122, 0.12);
+        }
+
+        .btn {
+            padding: 8px 13px;
+            border-radius: 13px;
+            border: none;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.25s;
+            font-size: 0.88rem;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.10);
+            line-height: 1.2;
+        }
+
+        .btn-main {
+            background: linear-gradient(135deg, #7b1fa2, #ab47bc);
+            color: white;
+        }
+
+        .btn-light {
+            background: #f8bbd0;
+            color: #880e4f;
+        }
+
+        .btn-purple {
+            background: linear-gradient(135deg, #ec407a, #ab47bc);
+            color: white;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #ffd700, #ffb300);
+            color: #5d4037;
+        }
+
+        .btn:active { transform: scale(0.95); }
+
+        .game-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            flex-grow: 1;
+        }
+
+        @media (min-width: 900px) {
+            .game-layout {
+                grid-template-columns: 230px 1fr;
+            }
+        }
+
+        .side-panel {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            align-content: flex-start;
+        }
+
+        @media (min-width: 900px) {
+            .side-panel {
+                flex-direction: column;
+            }
+        }
+
+        .team-card {
+            background: white;
+            padding: 8px;
+            border-radius: 15px;
+            border: 2px solid transparent;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.035);
+            flex: 1;
+            min-width: 105px;
+            transition: 0.25s;
+        }
+
+        .team-card.active-turn {
+            border-color: var(--rose);
+            box-shadow: 0 8px 16px rgba(236, 64, 122, 0.18);
+            transform: scale(1.03);
+        }
+
+        .team-label {
+            font-size: 0.85rem;
+            font-weight: 800;
+            margin-bottom: 3px;
+            color: #444;
+        }
+
+        .score-num {
+            font-size: 1.55rem;
+            font-weight: 900;
+            color: var(--deep-purple);
+            line-height: 1.1;
+        }
+
+        .timer-box {
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: #ad1457;
+            background: #fce4ec;
+            border-radius: 16px;
+            padding: 9px;
+            text-align: center;
+            border: 2px dashed #f48fb1;
+            min-width: 105px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timer-urgent {
+            color: #d32f2f;
+            animation: pulse 0.5s infinite;
+            background: #ffebee;
+            border-color: #ef9a9a;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 7px;
+            width: 100%;
+        }
+
+        .main-panel {
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .q-card {
+            background: white;
+            border-radius: 20px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.045);
+            margin-bottom: 8px;
+            min-height: 92px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 2px solid var(--soft-pink);
+        }
+
+        #display-text {
+            font-size: clamp(1rem, 2.8vw, 1.45rem);
+            font-weight: 900;
+            color: #3f3f3f;
+            line-height: 1.45;
+        }
+
+        #answer-hint {
+            margin-top: 7px;
+            color: var(--rose);
+            font-weight: 800;
+            display: none;
+            font-size: 0.95rem;
+        }
+
+        .flower-wrapper {
+            position: relative;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: visible;
+            min-height: 420px;
+        }
+
+        .petal-container {
+            display: grid;
+            grid-template-columns: repeat(7, 82px);
+            gap: 14px;
+            width: 100%;
+            max-width: 760px;
+            margin: auto;
+            padding: 14px;
+            justify-content: center;
+            align-content: center;
+        }
+
+        .letter-btn {
+            width: 82px;
+            height: 82px;
+            aspect-ratio: 1 / 1;
+            background: radial-gradient(circle at 35% 35%, #fff 0%, #f8bbd0 32%, #ab47bc 82%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(1.55rem, 3.8vw, 2.15rem);
+            font-weight: 900;
+            cursor: pointer;
+            transition: 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 10px rgba(123, 31, 162, 0.22);
+            border: 3px solid white;
+            position: relative;
+            overflow: visible;
+            user-select: none;
+        }
+
+        .letter-btn.number-mode {
+            background: radial-gradient(circle at 35% 35%, #fff 0%, #fce4ec 30%, #ec407a 82%);
+        }
+
+        .letter-btn::before,
+        .letter-btn::after {
+            content: "🌸";
+            position: absolute;
+            font-size: clamp(1.25rem, 3vw, 1.85rem);
+            z-index: -1;
+            opacity: 0.9;
+        }
+
+        .letter-btn::before {
+            top: -10px;
+            right: -7px;
+        }
+
+        .letter-btn::after {
+            bottom: -10px;
+            left: -7px;
+        }
+
+        .letter-btn span {
+            text-shadow: 0 2px 4px rgba(0,0,0,0.25);
+            position: relative;
+            z-index: 2;
+        }
+
+        .letter-btn:hover {
+            transform: scale(1.07);
+        }
+
+        .letter-btn:active {
+            transform: scale(0.88);
+        }
+
+        .letter-btn.selected {
+            animation: pop 0.45s ease, glow 0.7s ease;
+            background: radial-gradient(circle, #f3e5f5, #ce93d8) !important;
+            color: #6a1b9a !important;
+            box-shadow: 0 0 20px #ce93d8, 0 0 40px rgba(206, 147, 216, 0.65);
+            border-color: #ffffff;
+        }
+
+        .letter-btn.used {
+            background: #ddd !important;
+            color: #999 !important;
+            opacity: 0.55;
+            cursor: default;
+        }
+
+        .letter-btn.used.selected {
+            opacity: 1;
+            color: #6a1b9a !important;
+        }
+
+        .letter-btn.shake {
+            animation: shake 0.3s;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.55); }
+            60% { transform: scale(1.22); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 0px #ce93d8; }
+            50% { box-shadow: 0 0 35px #ce93d8; }
+            100% { box-shadow: 0 0 15px #ce93d8; }
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-4px); }
+            50% { transform: translateX(4px); }
+            75% { transform: translateX(-3px); }
+            100% { transform: translateX(0); }
+        }
+
+        .winner-box {
+            font-size: clamp(1.5rem, 5vw, 2.3rem);
+            font-weight: 900;
+            margin: 20px 0;
+            color: #ad1457;
+            line-height: 1.5;
+        }
+
+        .winner-score {
+            background: #fff5f8;
+            border: 2px dashed #f48fb1;
+            border-radius: 18px;
+            padding: 12px;
+            margin: 12px 0;
+            font-size: 1.05rem;
+            color: #6a1b9a;
+            font-weight: 800;
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 9px; border-radius: 20px; min-height: 98vh; }
+            .setup-card { padding: 20px; }
+            .controls-grid { grid-template-columns: 1fr; }
+            .controls-grid .span-2 { grid-column: span 1 !important; }
+            .side-panel { gap: 7px; }
+            .team-card { min-width: 96px; padding: 7px; }
+            .timer-box { min-width: 96px; font-size: 1rem; }
+            .flower-wrapper { min-height: 360px; align-items: flex-start; }
+            .petal-container {
+                grid-template-columns: repeat(4, 74px);
+                gap: 12px;
+                padding: 8px;
+                max-width: 360px;
+            }
+            .letter-btn {
+                width: 74px;
+                height: 74px;
+                font-size: 1.65rem;
+            }
+            .q-card { padding: 12px; min-height: 88px; }
+            .btn { padding: 8px 10px; font-size: 0.82rem; }
+            .hero-title { font-size: 2rem; }
+        }
+
+        @media (min-width: 481px) and (max-width: 899px) {
+            .petal-container {
+                grid-template-columns: repeat(7, 78px);
+                max-width: 700px;
+                gap: 12px;
+            }
+            .letter-btn {
+                width: 78px;
+                height: 78px;
+                font-size: 1.9rem;
+            }
+            .flower-wrapper { min-height: 430px; }
+        }
+
+        @media (max-height: 720px) and (min-width: 900px) {
+            .container { min-height: 98vh; padding: 9px; }
+            .header h1 { font-size: 1.45rem; margin-bottom: 4px; }
+            .q-card { min-height: 80px; padding: 12px; }
+            .petal-container {
+                grid-template-columns: repeat(7, 72px);
+                max-width: 660px;
+                gap: 10px;
+            }
+            .letter-btn {
+                width: 72px;
+                height: 72px;
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="bg-flowers-layer"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1>🌸 حروف وتحديات إلهام 🌸</h1>
+        </div>
+
+        <div id="view-menu" class="view active">
+            <div class="setup-card">
+                <div class="hero-badge">🌸 لعبة جماعية ممتعة 🌸</div>
+                <h2 class="hero-title">حروف وتحديات</h2>
+                <p class="hero-subtitle">
+                    اختاري نمط اللعب، كوّني فريقك، وابدئي تحديًا مليئًا بالحماس والورود 🌸
+                </p>
+
+                <div class="mode-grid">
+                    <button class="mode-card mode-letters" onclick="startFlow('questions')">
+                        <h3>🌸 وضع الأسئلة بالحروف</h3>
+                        <p>اختاري حرفًا وابدئي سؤالًا سريعًا وممتعًا.</p>
+                    </button>
+
+                    <button class="mode-card mode-numbers" onclick="startFlow('challenges')">
+                        <h3>🌸 وضع التحديات بالأرقام</h3>
+                        <p>اختاري رقمًا وابدئي تحديًا لطيفًا للفريق.</p>
+                    </button>
+                </div>
+
+                <div class="decor-row">🌸 🌸 🌸 🌸 🌸</div>
+            </div>
+        </div>
+
+        <div id="view-setup" class="view">
+            <div class="setup-card">
+                <div class="hero-badge">🌸 جهزي الفرق 🌸</div>
+                <h2 style="margin-bottom: 18px; color: var(--deep-purple);">من سيلعب اليوم؟ 🌸</h2>
+                <div class="input-group">
+                    <input type="text" id="name-0" placeholder="اسم الفريق الأول">
+                    <input type="text" id="name-1" placeholder="اسم الفريق الثاني">
+                </div>
+                <button class="btn btn-main" style="width: 100%; font-size: 1.1rem; padding:12px;" onclick="initGame()">لنبدأ التحدي! 🌸</button>
+            </div>
+        </div>
+
+        <div id="view-game" class="view">
+            <div class="game-layout">
+                <div class="side-panel">
+
+                    <div class="team-card active-turn" id="card-0">
+                        <div id="label-0" class="team-label">الفريق الأول</div>
+                        <div class="score-num" id="s-0">0</div>
+                        <button class="btn btn-main" style="padding:5px 10px; font-size:0.78rem; margin-top: 4px;" onclick="addPoint(0)">+ نقطة</button>
+                    </div>
+
+                    <div class="timer-box" id="timer">🌸 00:15</div>
+
+                    <div class="team-card" id="card-1">
+                        <div id="label-1" class="team-label">الفريق الثاني</div>
+                        <div class="score-num" id="s-1">0</div>
+                        <button class="btn btn-main" style="padding:5px 10px; font-size:0.78rem; margin-top: 4px;" onclick="addPoint(1)">+ نقطة</button>
+                    </div>
+
+                    <div class="controls-grid">
+                        <button class="btn btn-light" onclick="toggleAnswer()">🌸 تلميح</button>
+                        <button class="btn btn-main" onclick="resumeTimer()">🌸 استمرار</button>
+                        <button class="btn btn-gold span-2" style="grid-column: span 2;" onclick="endGame()">🌸 إعلان الفائز</button>
+                        <button class="btn btn-light span-2" style="grid-column: span 2;" onclick="location.reload()">🌸 القائمة</button>
+                    </div>
+                </div>
+
+                <div class="main-panel">
+                    <div class="q-card">
+                        <div id="display-text">اختاري حرفًا للسؤال أو رقمًا للتحدي 🌸</div>
+                        <div id="answer-hint"></div>
+                    </div>
+
+                    <div class="flower-wrapper">
+                        <div class="petal-container" id="petal-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-winner" class="view">
+            <div class="setup-card">
+                <div class="hero-badge">🌸 نهاية التحدي 🌸</div>
+                <h2 style="color: var(--deep-purple); font-size:2rem;">النتيجة النهائية</h2>
+                <div id="winner-text" class="winner-box"></div>
+                <div id="final-score" class="winner-score"></div>
+                <button class="btn btn-main" style="width:100%; font-size:1.1rem; padding:12px;" onclick="location.reload()">إعادة اللعب 🌸</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const bgIcons = ['🌸','🌸','🌸','🌸','🌸','🌸','🌸'];
+        const bgLayer = document.getElementById('bg-flowers-layer');
+
+        for (let i = 0; i < 22; i++) {
+            const el = document.createElement('div');
+            el.className = 'bg-flower';
+            el.innerText = bgIcons[Math.floor(Math.random() * bgIcons.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.top = Math.random() * 100 + 'vh';
+            el.style.fontSize = (Math.random() * 1.3 + 1) + 'rem';
+            el.style.animationDelay = (Math.random() * 10) + 's';
+            el.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            bgLayer.appendChild(el);
+        }
+
+        const lettersArr = ['أ','ب','ت','ث','ج','ح','خ','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ك','ل','م','ن','هـ','و','ي'];
+        const numbersArr = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16'];
+
+        const database = {
+            'أ': { city: 'أبها', food: 'أرز حساوي', dialect: 'أبشري', heritage: 'أبواب نجدية', place: 'أبها الجديدة', name: 'أمل' },
+            'ب': { city: 'بريدة', food: 'بليلة', dialect: 'بسم الله علينا', heritage: 'بشت', place: 'بوليفارد الرياض', name: 'بيان' },
+            'ت': { city: 'تبوك', food: 'تمر', dialect: 'توكلي على الله', heritage: 'تحفة تراثية', place: 'تبوك التاريخية', name: 'تالا' },
+            'ث': { city: 'ثقيف', food: 'ثريد', dialect: 'ثواني', heritage: 'ثوب تراثي', place: 'ثقيف الطائف', name: 'ثناء' },
+            'ج': { city: 'جدة', food: 'جريش', dialect: 'جداوي', heritage: 'جلسة شعبية', place: 'جدة التاريخية', name: 'جود' },
+            'ح': { city: 'حائل', food: 'حنيني', dialect: 'حيّاك الله', heritage: 'حياكة السدو', place: 'حرة خيبر', name: 'حصة' },
+            'خ': { city: 'الخبر', food: 'خبز تميس', dialect: 'خلاص', heritage: 'خوص', place: 'الخبر', name: 'خلود' },
+            'د': { city: 'الدرعية', food: 'دغابيس', dialect: 'دقيقة', heritage: 'دلة قهوة', place: 'درعية التاريخية', name: 'دلال' },
+            'ذ': { city: 'ذهبان', food: 'ذرة', dialect: 'ذاك اليوم', heritage: 'ذوق الضيافة', place: 'ذهبان', name: 'ذكرى' },
+            'ر': { city: 'الرياض', food: 'رز بخاري', dialect: 'رايقة', heritage: 'رقصة العرضة', place: 'روشن فرونت', name: 'ريم' },
+            'ز': { city: 'الزلفي', food: 'زلابية', dialect: 'زين', heritage: 'زخارف نجدية', place: 'الزلفي', name: 'زينب' },
+            'س': { city: 'سكاكا', food: 'سليق', dialect: 'سمّي', heritage: 'سدو', place: 'سوق الزل', name: 'سارة' },
+            'ش': { city: 'شرورة', food: 'شاورما', dialect: 'شدعوة', heritage: 'شماغ', place: 'شرورة', name: 'شهد' },
+            'ص': { city: 'صبيا', food: 'صيادية', dialect: 'صادقة', heritage: 'صقر', place: 'صبيا', name: 'صبا' },
+            'ض': { city: 'ضباء', food: 'ضأن مندي', dialect: 'ضبط', heritage: 'ضيافة', place: 'ضباء', name: 'ضحى' },
+            'ط': { city: 'طريف', food: 'طعمية', dialect: 'طيب', heritage: 'طاسة نحاس', place: 'طريف', name: 'طيف' },
+            'ظ': { city: 'الظهران', food: 'لحم ظبي', dialect: 'ظريف', heritage: 'ظلال المجلس', place: 'الظهران', name: 'ظبية' },
+            'ع': { city: 'عرعر', food: 'عصيدة', dialect: 'عوافي', heritage: 'عرضة', place: 'عرعر', name: 'عائشة' },
+            'غ': { city: 'الغاط', food: 'غريبة', dialect: 'غالي', heritage: 'غترة', place: 'الغاط', name: 'غلا' },
+            'ف': { city: 'فيفا', food: 'فول', dialect: 'فديتك', heritage: 'فنجال قهوة', place: 'فيفا', name: 'فاطمة' },
+            'ق': { city: 'القريات', food: 'قرصان', dialect: 'قدّام', heritage: 'قهوة', place: 'قصر المصمك', name: 'قمر' },
+            'ك': { city: 'الخرج', food: 'كبسة', dialect: 'كفو', heritage: 'كليجا', place: 'كورنيش جدة', name: 'كوثر' },
+            'ل': { city: 'ليلى', food: 'لقيمات', dialect: 'لا هنتي', heritage: 'لبس شعبي', place: 'لينة التاريخية', name: 'لمى' },
+            'م': { city: 'مكة', food: 'مطبق', dialect: 'مره حلو', heritage: 'مجلس عربي', place: 'مكة المكرمة', name: 'منيرة' },
+            'ن': { city: 'نجران', food: 'نخي', dialect: 'نورتينا', heritage: 'نقوش تراثية', place: 'نجران', name: 'نورة' },
+            'هـ': { city: 'الهفوف', food: 'هريس', dialect: 'هلا والله', heritage: 'هجانة', place: 'الهفوف', name: 'هدى' },
+            'و': { city: 'وادي الدواسر', food: 'ورق عنب', dialect: 'وش أخبارك', heritage: 'وشاح تراثي', place: 'واجهة الرياض', name: 'وعد' },
+            'ي': { city: 'ينبع', food: 'يغمش', dialect: 'يا هلا', heritage: 'مناسبة وطنية', place: 'ينبع البحر', name: 'يارا' }
+        };
+
+        const challenges = {
+            '1': 'قولي 3 أكلات سعودية مشهورة.',
+            '2': 'اذكري طريقة تقديم القهوة.',
+            '3': 'قولي جملة ترحيب باللهجة السعودية.',
+            '4': 'اذكري مدينتين من المملكة.',
+            '5': 'اذكري ماذا يحدث في العزيمة.',
+            '6': 'قولي 3 كلمات شعبية سعودية.',
+            '7': 'اذكري شيئًا من التراث السعودي.',
+            '8': 'قولي أسماء 3 مناطق سعودية.',
+            '9': 'اذكري أشياء تجدينها في السوق.',
+            '10': 'قولي عبارة: حيّاكم الله بطريقتك.',
+            '11': 'اذكري أكلة مشهورة من منطقتك.',
+            '12': 'اذكري رقصة مشهورة.',
+            '13': 'اذكري شيئًا يوجد في المجلس السعودي.',
+            '14': 'اذكري مناسبة وطنية.',
+            '15': 'اذكري معلمًا مشهورًا في السعودية.',
+            '16': 'قولي دعاء أو عبارة جميلة للوطن.'
+        };
+
+        const challengeHints = {
+            '1': 'كبسة، جريش، قرصان، سليق، مطبق.',
+            '2': 'الدلة، الفنجال، التمر، الترحيب بالضيوف.',
+            '3': 'مثل: يا هلا ومرحبا، حيّاكم الله، نورتونا.',
+            '4': 'الرياض، جدة، مكة، أبها، تبوك، حائل.',
+            '5': 'ترحيب، قهوة، تمر، ضيافة، دعوة للجلوس.',
+            '6': 'كفو، أبشري، سمّي، عوافي، لا هنتي.',
+            '7': 'السدو، البشت، الدلة، العرضة، المجلس.',
+            '8': 'الرياض، مكة، الشرقية، عسير، القصيم.',
+            '9': 'محلات، عطور، بخور، أكلات، ملابس.',
+            '10': 'قوليها بثقة وبابتسامة.',
+            '11': 'اختاري أكلة من منطقتكم أو أكلة سعودية عامة.',
+            '12': 'العرضة، الدحة، المزمار.',
+            '13': 'دلة، تمر، فنجال، مبخرة، سجاد.',
+            '14': 'اليوم الوطني، يوم التأسيس، يوم العلم.',
+            '15': 'المصمك، العلا، الدرعية، جبل طويق.',
+            '16': 'الله يحفظ الوطن ويديم عزه.'
+        };
+
+        let scores = [0, 0];
+        let gameMode = 'questions';
+        let currentTeam = 0;
+        let timerInterval;
+        let timeLeft = 15;
+        let hintText = "";
+
+        function showView(id) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        function startFlow(mode) {
+            gameMode = mode;
+            showView('view-setup');
+        }
+
+        function initGame() {
+            const n0 = document.getElementById('name-0').value.trim();
+            const n1 = document.getElementById('name-1').value.trim();
+
+            document.getElementById('label-0').innerText = n0 || 'الفريق الأول';
+            document.getElementById('label-1').innerText = n1 || 'الفريق الثاني';
+
+            showView('view-game');
+
+            setTimeout(createItemsGrid, 100);
+            resetTimer();
+
+            document.getElementById('display-text').innerText =
+                gameMode === 'questions'
+                    ? 'اختاري حرفًا وابدئي السؤال 🌸'
+                    : 'اختاري رقمًا وابدئي التحدي 🌸';
+        }
+
+        function createItemsGrid() {
+            const container = document.getElementById('petal-container');
+            container.innerHTML = '';
+
+            const arr = gameMode === 'questions' ? lettersArr : numbersArr;
+
+            arr.forEach((item) => {
+                const btn = document.createElement('div');
+                btn.className = 'letter-btn';
+                if (gameMode === 'challenges') btn.classList.add('number-mode');
+                btn.innerHTML = `<span>${item}</span>`;
+
+                btn.onclick = () => {
+                    if (btn.classList.contains('used')) {
+                        btn.classList.add('shake');
+                        setTimeout(() => btn.classList.remove('shake'), 300);
+                        return;
+                    }
+
+                    document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('selected'));
+
+                    btn.classList.add('selected', 'used', 'shake');
+                    setTimeout(() => btn.classList.remove('shake'), 300);
+
+                    confetti({
+                        particleCount: 45,
+                        spread: 60,
+                        origin: { y: 0.7 },
+                        colors: ['#f48fb1', '#7b1fa2', '#ce93d8', '#ffd700', '#ffffff']
+                    });
+
+                    pickItem(item);
+                };
+
+                container.appendChild(btn);
+            });
+        }
+
+        function pickItem(item) {
+            document.getElementById('answer-hint').style.display = 'none';
+
+            if (gameMode === 'questions') {
+                const questionTemplates = [
+                    { text: 'مدينة أو منطقة سعودية تبدأ بحرف (X)', key: 'city' },
+                    { text: 'أكلة تحتوي على حرف (X)', key: 'food' },
+                    { text: 'كلمة من اللهجة السعودية تبدأ بحرف (X)', key: 'dialect' },
+                    { text: 'شيء من التراث السعودي يبدأ بحرف (X)', key: 'heritage' },
+                    { text: 'مكان أو معلم في السعودية يبدأ بحرف (X)', key: 'place' },
+                    { text: 'اسم بنت يبدأ بحرف (X)', key: 'name' },
+                    { text: 'مناسبة وطنية تبدأ بحرف (X)', key: 'heritage' }
+                ];
+
+                const t = questionTemplates[Math.floor(Math.random() * questionTemplates.length)];
+                document.getElementById('display-text').innerText = '🌸 ' + t.text.replace('X', item);
+                hintText = database[item]?.[t.key] || 'فكري في شيء يبدأ بهذا الحرف 🌸';
+
+                if (t.text.includes('مناسبة وطنية')) {
+                    hintText = 'مثل: اليوم الوطني، يوم التأسيس، يوم العلم';
+                }
+
+            } else {
+                document.getElementById('display-text').innerText = '🌸 التحدي رقم ' + item + ': ' + challenges[item];
+                hintText = challengeHints[item] || 'تحدي ممتع!';
+            }
+
+            resetTimer();
+            startTimer();
+        }
+
+        function addPoint(idx) {
+            scores[idx]++;
+            document.getElementById(`s-${idx}`).innerText = scores[idx];
+
+            confetti({
+                particleCount: 90,
+                spread: 75,
+                origin: { y: 0.6 },
+                colors: ['#f48fb1', '#7b1fa2', '#ce93d8', '#ffd700', '#ffffff']
+            });
+
+            currentTeam = (currentTeam + 1) % 2;
+            updateTurnUI();
+
+            clearInterval(timerInterval);
+
+            document.getElementById('display-text').innerText =
+                gameMode === 'questions'
+                    ? 'أحسنتِ! اختاري حرفًا جديدًا للسؤال التالي 🌸'
+                    : 'أحسنتِ! اختاري رقمًا جديدًا للتحدي التالي 🌸';
+
+            document.getElementById('answer-hint').style.display = 'none';
+        }
+
+        function updateTurnUI() {
+            document.querySelectorAll('.team-card').forEach(c => c.classList.remove('active-turn'));
+            document.getElementById(`card-${currentTeam}`).classList.add('active-turn');
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('timer').classList.add('timer-urgent');
+                    document.getElementById('display-text').innerText = 'انتهى الوقت! أعطي نقطة للفريق المستحق أو اختاري التالي 🌸';
+                    return;
+                }
+
+                timeLeft--;
+                document.getElementById('timer').innerText = `🌸 00:${timeLeft.toString().padStart(2, '0')}`;
+
+                if (timeLeft < 4) {
+                    document.getElementById('timer').classList.add('timer-urgent');
+                }
+            }, 1000);
+        }
+
+        function resumeTimer() {
+            if (timeLeft > 0) startTimer();
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timeLeft = gameMode === 'questions' ? 15 : 30;
+            document.getElementById('timer').classList.remove('timer-urgent');
+            document.getElementById('timer').innerText = `🌸 00:${timeLeft.toString().padStart(2, '0')}`;
+        }
+
+        function toggleAnswer() {
+            const h = document.getElementById('answer-hint');
+            h.innerText = '🌸 تلميح إلهام: ' + hintText;
+            h.style.display = h.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function endGame() {
+            clearInterval(timerInterval);
+
+            const name0 = document.getElementById('label-0').innerText;
+            const name1 = document.getElementById('label-1').innerText;
+
+            let winnerText = '';
+
+            if (scores[0] > scores[1]) {
+                winnerText = `مبروك ${name0} 🌸`;
+            } else if (scores[1] > scores[0]) {
+                winnerText = `مبروك ${name1} 🌸`;
+            } else {
+                winnerText = 'تعادل جميل بين الفريقين 🌸';
+            }
+
+            document.getElementById('winner-text').innerText = winnerText;
+            document.getElementById('final-score').innerText = `${name0}: ${scores[0]} نقطة | ${name1}: ${scores[1]} نقطة`;
+
+            showView('view-winner');
+
+            confetti({
+                particleCount: 250,
+                spread: 130,
+                origin: { y: 0.55 },
+                colors: ['#f48fb1', '#7b1fa2', '#ce93d8', '#ffd700', '#ffffff']
+            });
+
+            setTimeout(() => {
+                confetti({
+                    particleCount: 150,
+                    spread: 100,
+                    origin: { x: 0.2, y: 0.7 },
+                    colors: ['#f8bbd0', '#ffd700', '#7b1fa2']
+                });
+
+                confetti({
+                    particleCount: 150,
+                    spread: 100,
+                    origin: { x: 0.8, y: 0.7 },
+                    colors: ['#f8bbd0', '#ffd700', '#7b1fa2']
+                });
+            }, 450);
+        }
+
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                if (document.getElementById('view-game').classList.contains('active')) {
+                    createItemsGrid();
+                }
+            }, 250);
+        });
+    </script>
+</body>
+</html>
